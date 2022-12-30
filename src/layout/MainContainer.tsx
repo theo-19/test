@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import "../App.css";
 import Map from "./components/Map";
 import Menus from "./components/Menus";
@@ -12,7 +12,10 @@ function MainContainer() {
   const [selectedCity, setSelectedCity] = useState<string>();
   const [selectedTerrotory, setSelectedTerrotory] = useState<string>();
 
-  const terretory = terrotories.find((x) => x.id === selectedTerrotory);
+  const terretory = useMemo(
+    () => terrotories.find((x) => x.id === selectedTerrotory),
+    [selectedTerrotory, terrotories]
+  );
 
   return (
     <div className="main-container">
