@@ -23,10 +23,6 @@ export default React.memo(Map);
 function Map(props: Props) {
   const { selectedTerretory } = props;
 
-  //   const markerIcon = useCallback(() => {
-  //     return <FaMapMarkerAlt />;
-  //   }, []);
-
   const iconMarkup = renderToStaticMarkup(
     <FaMapMarkerAlt className="marker-icon" />
   );
