@@ -37,3 +37,8 @@ color:black
   height: 90vh;
   width:90vw
 }
+.marker-icon{
+  width: 24px;
+  height: 24px;
+  color: blue;
+}

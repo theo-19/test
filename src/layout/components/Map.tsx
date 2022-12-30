@@ -1,34 +1,61 @@
+import { divIcon } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import React from "react";
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { renderToStaticMarkup } from "react-dom/server";
+import { FaMapMarkerAlt } from "react-icons/fa";
+import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import "../../App.css";
 
 interface Props {
-  coordinates?: {
-    N: number;
-    E: number;
+  selectedTerretory: {
+    title: string;
+    coordinates:
+      | {
+          N: number;
+          E: number;
+        }
+      | undefined;
   };
 }
 
 export default React.memo(Map);
 
 function Map(props: Props) {
-  const { coordinates } = props;
+  const { selectedTerretory } = props;
+
+  //   const markerIcon = useCallback(() => {
+  //     return <FaMapMarkerAlt />;
+  //   }, []);
+
+  const iconMarkup = renderToStaticMarkup(
+    <FaMapMarkerAlt className="marker-icon" />
+  );
+  const markerIcon = divIcon({
+    html: iconMarkup,
+  });
 
   return (
     <MapContainer
       className="map-container"
-      center={[51.0, 19.0]}
+      center={[41.0082, 28.9784]}
       zoom={4}
       maxZoom={18}
+      markerZoomAnimation
     >
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        // attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
+
       <Marker
-        position={[coordinates?.N, coordinates?.E] || [41.0082, 28.9784]}
-      />
+        position={[
+          selectedTerretory.coordinates?.N || 41.0082,
+          selectedTerretory.coordinates?.E || 28.9784,
+        ]}
+        icon={markerIcon}
+      >
+        <Tooltip>{selectedTerretory.title}</Tooltip>
+      </Marker>
     </MapContainer>
   );
 }
